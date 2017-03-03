@@ -27,7 +27,6 @@ repositories {
 
 dependencies {
     compile "com.github.ericytsang:lib.randomstream:1.0.0"
-    compile "com.github.ericytsang:lib.lazycollections:1.0.0"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile "junit:junit:4.11"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"

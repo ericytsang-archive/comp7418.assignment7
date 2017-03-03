@@ -1,7 +1,6 @@
 package bcit.A00841554.comp7418.assignment7.test
 
 import bcit.A00841554.comp7418.assignment7.Verhoeff
-import com.github.ericytsang.lib.lazycollections.lazyMapNotNull
 import com.github.ericytsang.lib.randomstream.RandomInputStream
 import org.junit.Test
 import java.io.DataInputStream
@@ -34,9 +33,9 @@ class VerhoeffTest
         assert(swap(4,3,"abcde") == "abced")
     }
 
-    fun adjacentTranspositions(digits:String):Iterable<String>
+    fun adjacentTranspositions(digits:String):Sequence<String>
     {
-        return (0..digits.lastIndex-1).lazyMapNotNull {
+        return (0..digits.lastIndex-1).asSequence().mapNotNull {
             if (digits[it] == digits[it+1])
                 null
             else
@@ -50,14 +49,14 @@ class VerhoeffTest
         assert(adjacentTranspositions("abcde").toSet() == setOf("bacde","acbde","abdce","abced"))
     }
 
-    fun findCollisionPreimages(digits:String,transform:(String)->String):List<String>
+    fun findCollisionPreimages(digits:String,transform:(String)->String):Sequence<String>
     {
         val originalTransformed = transform(digits)
         return adjacentTranspositions(digits)
             .filter {transform(it) == originalTransformed}
     }
 
-    fun findVerhoeffCollisionPreimages(digits:String):List<String>
+    fun findVerhoeffCollisionPreimages(digits:String):Sequence<String>
     {
         return findCollisionPreimages(digits,{Verhoeff.generateVerhoeff(it)})
     }
@@ -98,7 +97,7 @@ class VerhoeffTest
             }
             println("started computing for number string of length $_length")
             val numbers = generateNumericString(_length)
-            val equivalents = findVerhoeffCollisionPreimages(numbers)
+            val equivalents = findVerhoeffCollisionPreimages(numbers).toList()
             println("finished computing for number string of length $_length")
             if (equivalents.isNotEmpty())
             {
